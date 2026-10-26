@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>vkaalnarsi</title>
+<meta name="description" content="你的历史里，有几条是你自己也想再确认一遍的。">
+<style>
+:root{
+  --bg:#0b0e14; --fg:#e6edf3; --muted:#8b949e; --line:#1f2630;
+  --card:#11161f; --accent:#7ee787; --accent2:#79c0ff;
+}
+@media (prefers-color-scheme: light){
+  :root{ --bg:#fbfbfa; --fg:#1a1a1a; --muted:#6b6b6b; --line:#e6e4e0;
+         --card:#ffffff; --accent:#1a7f37; --accent2:#0969da; }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--fg);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","PingFang SC",
+              "Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:16px; line-height:1.78; letter-spacing:.01em;
+}
+main{max-width:720px; margin:0 auto; padding:88px 24px 120px}
+h1,h2,h3{line-height:1.3; letter-spacing:-.01em}
+a{color:var(--accent2); text-decoration:none; border-bottom:1px solid transparent}
+a:hover{border-bottom-color:var(--accent2)}
+
+.hero{padding-bottom:44px; border-bottom:1px solid var(--line)}
+.eyebrow{margin:0 0 14px; font-size:13px; color:var(--muted);
+         letter-spacing:.14em; text-transform:uppercase}
+.hero h1{margin:0; font-size:40px; font-weight:650}
+.tagline{margin:16px 0 0; font-size:18px; color:var(--muted); max-width:34em}
+
+section{padding:44px 0; border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:0}
+h2{margin:0 0 22px; font-size:13px; font-weight:600; letter-spacing:.14em;
+   text-transform:uppercase; color:var(--muted)}
+
+.about p{margin:0 0 18px; font-size:17px}
+ul.traits{list-style:none; margin:0; padding:0; display:grid; gap:10px}
+ul.traits li{padding-left:20px; position:relative; color:var(--fg)}
+ul.traits li::before{content:""; position:absolute; left:2px; top:.72em;
+  width:7px; height:1px; background:var(--accent)}
+
+.grid{display:grid; gap:14px}
+@media(min-width:640px){ .grid.two{grid-template-columns:1fr 1fr} }
+.card{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:20px}
+.card h3{margin:0 0 8px; font-size:17px; font-weight:600}
+.card p{margin:0; color:var(--muted); font-size:15px}
+.card .status{display:inline-block; margin-top:12px; font-size:12px;
+  color:var(--accent); letter-spacing:.06em}
+
+ul.repos{list-style:none; margin:0; padding:0}
+ul.repos li{padding:16px 0; border-bottom:1px dashed var(--line)}
+ul.repos li:last-child{border-bottom:0}
+ul.repos .name{font-weight:600}
+ul.repos .desc{color:var(--muted); font-size:15px; margin-top:2px}
+
+.tags{display:flex; flex-wrap:wrap; gap:8px; margin:0; padding:0; list-style:none}
+.tags li{border:1px solid var(--line); border-radius:999px;
+  padding:6px 14px; font-size:14px; color:var(--muted)}
+
+ol.timeline{list-style:none; margin:0; padding:0 0 0 20px;
+  border-left:1px solid var(--line)}
+ol.timeline li{position:relative; padding:0 0 26px 20px}
+ol.timeline li:last-child{padding-bottom:0}
+ol.timeline li::before{content:""; position:absolute; left:-25px; top:.62em;
+  width:9px; height:9px; border-radius:50%; background:var(--bg);
+  border:1px solid var(--accent)}
+ol.timeline .when{display:block; font-size:12px; color:var(--muted);
+  letter-spacing:.08em; margin-bottom:2px}
+
+footer{padding-top:44px; border-top:1px solid var(--line); margin-top:44px}
+footer .mission{margin:0 0 10px; font-size:17px}
+footer .note{margin:0; color:var(--muted); font-size:14px}
+</style>
+</head>
+<body>
+<main>
+
+<header class="hero">
+  <p class="eyebrow">Shell 历史 · 命令体检</p>
+  <h1>vkaalnarsi</h1>
+  <p class="tagline">你的历史里，有几条是你自己也想再确认一遍的。</p>
+</header>
+
+<section class="about" id="about">
+  <h2>关于</h2>
+  <p>我是 vkaalnarsi。有一件小事我做了很久：翻自己的 shell 历史。 不是为了怀旧，而是因为发现「我最常打的那几十条命令」和 「历史里躺着的几百条」根本是两回事——真正高频的其实很集中， 而偶尔出现、需要确认的那几条，往往带着破坏性。 所以 histaudit 干两件事：统计出真正高频的命令模式， 再把值得复核的挑出来单独列。清理建议也给到具体范围， 而不是一句「建议定期清理历史」。 它只读历史文件，不联网、不执行任何历史命令。</p>
+  <ul class="traits">
+    <li>只读不写：任何时候都不执行历史里记录的命令。</li>
+    <li>先列结论，再给证据，最后给处理范围。</li>
+    <li>不制造恐慌——风险按具体程度描述，不喊「危险」。</li>
+    <li>承认误报可能存在，给出可调整的判定入口。</li>
+  </ul>
+</section>
+
+<section id="research">
+  <h2>研究方向</h2>
+  <div class="grid two">
+    <article class="card">
+      <h3>命令模式的识别</h3>
+      <p>怎么把 `git log --oneline -n 20` 和 `git log --oneline` 认成同一个模式？</p>
+      <span class="status">持续沉淀</span>
+    </article>
+    <article class="card">
+      <h3>风险判定的误报</h3>
+      <p>哪些命令看起来危险但其实无害，规则怎么写才不烦人？</p>
+      <span class="status">持续观察</span>
+    </article>
+    <article class="card">
+      <h3>历史的可维护性</h3>
+      <p>历史文件该由谁来管：人定期手动，还是工具按规则代劳？</p>
+      <span class="status">长期思考</span>
+    </article>
+  </div>
+</section>
+
+<section id="work">
+  <h2>开源</h2>
+  <ul class="repos">
+    <li><div class="name">histaudit</div>
+      <div class="desc">统计真实高频的命令模式，把命中具体风险写法的条目单独列出。</div>
+    </li>
+  </ul>
+</section>
+
+<section id="hobbies">
+  <h2>业余</h2>
+  <ul class="tags">
+    <li>整理自己的 shell 别名与函数</li>
+    <li>统计一段时间里最常用的命令</li>
+    <li>读命令行工具的历史文件格式说明</li>
+  </ul>
+</section>
+
+<section id="timeline">
+  <h2>时间线</h2>
+  <ol class="timeline">
+    <li>
+      <span class="when">2026-10-21</span>
+      注册 GitHub 账号。
+    </li>
+    <li>
+      <span class="when">2026-10-26</span>
+      开源 histaudit，用于统计 shell 历史命令模式并筛出值得复核的条目。
+    </li>
+  </ol>
+</section>
+
+<footer>
+  <p class="mission">让你在敲下回车之前，就知道自己正在重复什么。</p>
+  <p class="note">这个页面在生长。每一次真实的提交都会被记下来。</p>
+</footer>
+
+</main>
+</body>
+</html>
